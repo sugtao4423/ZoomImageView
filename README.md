@@ -39,6 +39,22 @@ Improvements over PhotoView:
 - Fixed pinch zoom accuracy, also with multiple fingers.
 - Some parts of code have been removed, rewritten and overall simplified.
 
+Usage
+-
+* build.gradle
+
+```
+repositories {
+    maven {
+        url 'https://sugtao4423.github.io/ZoomImageView/repository'
+    }
+}
+
+dependencies {
+    implementation 'sugtao4423.support:zoomimageview:1.0.0'
+}
+```
+
 License
 -
     
