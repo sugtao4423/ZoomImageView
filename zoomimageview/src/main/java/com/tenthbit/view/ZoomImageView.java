@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright 2013 Tomasz Zawada
- * 
+ *
  * Based on the excellent PhotoView by Chris Banes:
  * https://github.com/chrisbanes/PhotoView
  *
@@ -30,14 +30,8 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
+import android.view.*;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
@@ -48,7 +42,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Interface definition for a callback to be invoked when the Photo is
      * tapped with a single tap.
-     * 
+     *
      * @author tomasz.zawada@gmail.com
      */
     public static interface OnPhotoTapListener {
@@ -56,15 +50,12 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
          * A callback to receive where the user taps on a photo. You will only
          * receive a callback if the user taps on the actual photo, tapping on
          * 'whitespace' will be ignored.
-         * 
-         * @param view
-         *            - View the user tapped.
-         * @param x
-         *            - where the user tapped from the of the Drawable, as
-         *            percentage of the Drawable width.
-         * @param y
-         *            - where the user tapped from the top of the Drawable, as
-         *            percentage of the Drawable height.
+         *
+         * @param view - View the user tapped.
+         * @param x    - where the user tapped from the of the Drawable, as
+         *             percentage of the Drawable width.
+         * @param y    - where the user tapped from the top of the Drawable, as
+         *             percentage of the Drawable height.
          */
         public void onPhotoTap(View view, float x, float y);
     }
@@ -72,7 +63,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Interface definition for a callback to be invoked when the ImageView is
      * tapped with a single tap.
-     * 
+     *
      * @author tomasz.zawada@gmail.com
      */
     public static interface OnViewTapListener {
@@ -80,23 +71,18 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
          * A callback to receive where the user taps on a ImageView. You will
          * receive a callback if the user taps anywhere on the view, tapping on
          * 'whitespace' will not be ignored.
-         * 
-         * @param view
-         *            - View the user tapped.
-         * @param x
-         *            - where the user tapped from the left of the View.
-         * @param y
-         *            - where the user tapped from the top of the View.
+         *
+         * @param view - View the user tapped.
+         * @param x    - where the user tapped from the left of the View.
+         * @param y    - where the user tapped from the top of the View.
          */
         public void onViewTap(View view, float x, float y);
     }
 
     /**
-     * 
      * The MultiGestureDetector manages the multi-finger pinch zoom, pan and tap
-     * 
+     *
      * @author tomasz.zawada@gmail.com
-     * 
      */
     private class MultiGestureDetector extends GestureDetector.SimpleOnGestureListener implements
             OnScaleGestureListener {
@@ -190,7 +176,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
                             /**
                              * Here we decide whether to let the ImageView's
                              * parent to start taking over the touch event.
-                             * 
+                             *
                              * First we check whether this function is enabled.
                              * We never want the parent to take over if we're
                              * scaling. We then check the edge we're on, and the
@@ -225,25 +211,25 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
                         lastTouchY = y;
 
                         // Compute velocity within the last 1000ms
-			if (velocityTracker != null) {
-                        	velocityTracker.addMovement(event);
-	                        velocityTracker.computeCurrentVelocity(1000);
+                        if (velocityTracker != null) {
+                            velocityTracker.addMovement(event);
+                            velocityTracker.computeCurrentVelocity(1000);
 
-        	                final float vX = velocityTracker.getXVelocity(), vY = velocityTracker
-                                .getYVelocity();
+                            final float vX = velocityTracker.getXVelocity(), vY = velocityTracker
+                                    .getYVelocity();
 
-	                        // If the velocity is greater than minVelocity perform
-        	                // a fling
-                	        if ((Math.max(Math.abs(vX), Math.abs(vY)) >= scaledMinimumFlingVelocity)
-                        	        && (getDrawable() != null)) {
-                            		currentFlingRunnable = new FlingRunnable(getContext());
-	                            	currentFlingRunnable.fling(getWidth(), getHeight(), (int) -vX,
-        	                            (int) -vY);
-                	            	post(currentFlingRunnable);
-                        	} 
-		        }
+                            // If the velocity is greater than minVelocity perform
+                            // a fling
+                            if ((Math.max(Math.abs(vX), Math.abs(vY)) >= scaledMinimumFlingVelocity)
+                                    && (getDrawable() != null)) {
+                                currentFlingRunnable = new FlingRunnable(getContext());
+                                currentFlingRunnable.fling(getWidth(), getHeight(), (int) -vX,
+                                        (int) -vY);
+                                post(currentFlingRunnable);
+                            }
+                        }
                     }
-		    break;
+                    break;
                 }
                 case MotionEvent.ACTION_CANCEL:
                     lastPointerCount = 0;
@@ -343,12 +329,10 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     }
 
     /**
-     * 
      * The ScrollerProxy encapsulates the Scroller and OverScroller classes.
      * OverScroller is available since API 9.
-     * 
+     *
      * @author tomasz.zawada@gmail.com
-     * 
      */
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private class ScrollerProxy {
@@ -372,7 +356,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
         }
 
         public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX,
-                int minY, int maxY, int overX, int overY) {
+                          int minY, int maxY, int overX, int overY) {
 
             if (isOld) {
                 ((Scroller) scroller).fling(startX, startY, velocityX, velocityY, minX, maxX, minY,
@@ -460,7 +444,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
      * Gets the Display Rectangle of the currently displayed Drawable. The
      * Rectangle is relative to this View and includes all scaling and
      * translations.
-     * 
+     *
      * @return - RectF of Displayed Drawable
      */
     public final RectF getDisplayRect() {
@@ -470,7 +454,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * @return The current minimum scale level. What this value represents
-     *         depends on the current {@link android.widget.ImageView.ScaleType}
+     * depends on the current {@link android.widget.ImageView.ScaleType}
      */
     public float getMinScale() {
         return minScale;
@@ -487,7 +471,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * @return The current middle scale level. What this value represents
-     *         depends on the current {@link android.widget.ImageView.ScaleType}
+     * depends on the current {@link android.widget.ImageView.ScaleType}
      */
     public float getMidScale() {
         return midScale;
@@ -504,7 +488,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * @return The current maximum scale level. What this value represents
-     *         depends on the current {@link android.widget.ImageView.ScaleType}
+     * depends on the current {@link android.widget.ImageView.ScaleType}
      */
     public float getMaxScale() {
         return maxScale;
@@ -521,7 +505,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * Returns the current scale value
-     * 
+     *
      * @return float - current scale value
      */
     public final float getScale() {
@@ -541,9 +525,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
      * Controls how the image should be resized or moved to match the size of
      * the ImageView. Any scaling or panning will happen within the confines of
      * this {@link android.widget.ImageView.ScaleType}.
-     * 
-     * @param scaleType
-     *            - The desired scaling mode.
+     *
+     * @param scaleType - The desired scaling mode.
      */
     @Override
     public final void setScaleType(ScaleType scaleType) {
@@ -560,7 +543,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * Returns true if the ZoomImageView is set to allow zooming of Photos.
-     * 
+     *
      * @return true if the ZoomImageView allows zooming.
      */
     public final boolean isZoomEnabled() {
@@ -570,9 +553,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Allows you to enable/disable the zoom functionality on the ImageView.
      * When disable the ImageView reverts to using the FIT_CENTER matrix.
-     * 
-     * @param isZoomEnabled
-     *            - Whether the zoom functionality is enabled.
+     *
+     * @param isZoomEnabled - Whether the zoom functionality is enabled.
      */
     public final void setIsZoomEnabled(boolean isZoomEnabled) {
         this.isZoomEnabled = isZoomEnabled;
@@ -614,9 +596,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Register a callback to be invoked when the Photo displayed by this view
      * is long-pressed.
-     * 
-     * @param listener
-     *            - Listener to be registered.
+     *
+     * @param listener - Listener to be registered.
      */
     @Override
     public final void setOnLongClickListener(OnLongClickListener listener) {
@@ -626,9 +607,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Register a callback to be invoked when the Photo displayed by this View
      * is tapped with a single tap.
-     * 
-     * @param listener
-     *            - Listener to be registered.
+     *
+     * @param listener - Listener to be registered.
      */
     public final void setOnPhotoTapListener(OnPhotoTapListener listener) {
         photoTapListener = listener;
@@ -637,9 +617,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
     /**
      * Register a callback to be invoked when the View is tapped with a single
      * tap.
-     * 
-     * @param listener
-     *            - Listener to be registered.
+     *
+     * @param listener - Listener to be registered.
      */
     public final void setOnViewTapListener(OnViewTapListener listener) {
         viewTapListener = listener;
@@ -815,9 +794,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * Helper method that maps the supplied Matrix to the current Drawable
-     * 
-     * @param matrix
-     *            - Matrix to map Drawable against
+     *
+     * @param matrix - Matrix to map Drawable against
      * @return RectF - Displayed Rectangle
      */
     private RectF getDisplayRect(Matrix matrix) {
@@ -842,9 +820,8 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
 
     /**
      * Calculate Matrix for FIT_CENTER
-     * 
-     * @param d
-     *            - Drawable being displayed
+     *
+     * @param d - Drawable being displayed
      */
     private void updateBaseMatrix(Drawable d) {
         if (null == d) {
@@ -933,7 +910,7 @@ public class ZoomImageView extends ImageView implements View.OnTouchListener,
         private final float deltaScale;
 
         public AnimatedZoomRunnable(final float currentZoom, final float targetZoom,
-                final float focalX, final float focalY) {
+                                    final float focalX, final float focalY) {
             this.targetZoom = targetZoom;
             this.focalX = focalX;
             this.focalY = focalY;
