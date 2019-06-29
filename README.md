@@ -46,12 +46,12 @@ Usage
 ```
 repositories {
     maven {
-        url 'https://sugtao4423.github.io/ZoomImageView/repository'
+        url 'https://jitpack.io'
     }
 }
 
 dependencies {
-    implementation 'sugtao4423.support:zoomimageview:1.0.0'
+    implementation 'com.github.sugtao4423:ZoomImageView:1.0.0'
 }
 ```
 

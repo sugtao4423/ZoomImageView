@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 28
@@ -21,19 +22,4 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
-}
-
-def repo = new File(rootDir, "repository")
-
-apply plugin: 'maven'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository url: "file://${repo.absolutePath}"
-            pom.version = '1.0.0'
-            pom.groupId = 'sugtao4423.support'
-            pom.artifactId = 'zoomimageview'
-        }
-    }
 }
