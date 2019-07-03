@@ -6,6 +6,7 @@ Works great with ViewPager, example provided.
 
 Used in [Couple](https://play.google.com/store/apps/details?id=com.tenthbit.juliet "Couple")  app.
 
+[![](https://jitpack.io/v/sugtao4423/ZoomImageView.svg)](https://jitpack.io/#sugtao4423/ZoomImageView)
 
 Features
 -
